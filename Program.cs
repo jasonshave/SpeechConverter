@@ -1,8 +1,9 @@
-﻿using System;
-using System.Threading.Channels;
+﻿using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Hosting;
+using Serilog;
+using System;
+using System.IO;
 using System.Threading.Tasks;
-using Microsoft.CognitiveServices.Speech;
-using Microsoft.CognitiveServices.Speech.Audio;
 
 namespace SpeechConverter
 {
@@ -10,42 +11,42 @@ namespace SpeechConverter
     {
         static async Task Main(string[] args)
         {
-            var result = await Convert();
+            SetupLogging();
+            Log.Logger.Information("Application starting.");
+
+
+
+            var result = await AudioConverter.Convert(inputFile: "foo");
             Console.WriteLine(result);
         }
 
-        private static async Task<string> Convert()
+        private static void SetupLogging()
         {
-            SpeechRecognitionResult result;
-            var speechConfig = SpeechConfig.FromSubscription("54773552be2b41149aae62b9f44876b8", "canadacentral");
-            
-            using(var pushStream = AudioInputStream.CreatePushStream(AudioStreamFormat.GetCompressedFormat(AudioStreamContainerFormat.MP3)))
-            {
-                using (BinaryAudioStreamReader reader = Helper.CreateBinaryFileReader(@"c:\trans\audio.mp3"))
-                {
-                    byte[] buffer = new byte[1000];
-                    while (true)
-                    {
-                        var readSamples = reader.Read(buffer, (uint)buffer.Length);
-                        if (readSamples == 0)
-                        {
-                            break;
-                        }
-                        pushStream.Write(buffer, readSamples);
-                    }
-                }
-                pushStream.Close();
+            // Set up configuration builder for Serilog
+            var builder = new ConfigurationBuilder();
+            BuildConfig(builder);
 
-                // Create an audio config specifying the compressed
-                // audio format and the instance of your input stream class.
-                var audioConfig = AudioConfig.FromStreamInput(pushStream);
+            // Configure Serilog
+            Log.Logger = new LoggerConfiguration()
+                .ReadFrom.Configuration(builder.Build())
+                .Enrich.FromLogContext()
+                .WriteTo.Console()
+                .CreateLogger();
 
-                using var recognizer = new SpeechRecognizer(speechConfig, audioConfig);
-                result = await recognizer.RecognizeOnceAsync();
-            }
-
-            var text = result.Text;
-            return text;
+            CreateHostBuilder().Build();
         }
+
+        private static void BuildConfig(IConfigurationBuilder builder)
+        {
+            var environment = Environment.GetEnvironmentVariable("NETCORE_ENVIRONMENT");
+
+            builder.SetBasePath(Directory.GetCurrentDirectory())
+                .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+                .AddJsonFile($"appsettings.{environment ?? "Production"}.json", optional: true, reloadOnChange: true)
+                .AddEnvironmentVariables();
+        }
+
+        private static IHostBuilder CreateHostBuilder() =>
+            Host.CreateDefaultBuilder().UseSerilog();
     }
 }

@@ -5,7 +5,7 @@ using System.IO;
 
 namespace SpeechConverter
 {
-    public static class Helper
+    public static class AudioHelper
     {
         public static AudioConfig OpenWavFile(string filename)
         {
