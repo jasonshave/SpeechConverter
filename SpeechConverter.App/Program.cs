@@ -2,22 +2,32 @@
 using Microsoft.Extensions.Hosting;
 using Serilog;
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
-using System.Threading.Tasks;
+using Gst;
 
 namespace SpeechConverter
 {
+    [ExcludeFromCodeCoverage]
     class Program
     {
-        static async Task Main(string[] args)
+        static async System.Threading.Tasks.Task Main(string[] args)
         {
             SetupLogging();
             Log.Logger.Information("Application starting.");
 
+            try
+            {
+                var speechConverterConfiguration = new SpeechConverterConfiguration(args);
+                var result = await AudioConverter.Convert(inputFile: speechConverterConfiguration.InputFile);
+                Console.WriteLine(result);
+            }
+            catch (Exception e)
+            {
+                Log.Logger.Error(e.Message);
+            }
 
-
-            var result = await AudioConverter.Convert(inputFile: "foo");
-            Console.WriteLine(result);
+            Log.Logger.Information("Application exiting.");
         }
 
         private static void SetupLogging()
