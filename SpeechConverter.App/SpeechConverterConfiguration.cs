@@ -46,6 +46,7 @@ namespace SpeechConverter.App
             OutputFile = _oArgs[_oArgs.FindIndex(x => x.Contains(OutputFileArgument)) + 1];
 
             if (!File.Exists(InputFile)) throw new FileNotFoundException("File {InputFile} not found.", InputFile);
+            if (InputFile == OutputFile) throw new Exception($"Input file {InputFile} and output file {OutputFile} are the same.");
         }
 
         private static void Validate(Action<string> predicate)

@@ -1,6 +1,7 @@
 using Microsoft.Extensions.Logging;
 using Moq;
 using System;
+using System.IO;
 using System.Linq;
 using SpeechConverter.App;
 using Xunit;
@@ -117,6 +118,18 @@ namespace SpeechConverter.Tests
             // Assert
             Assert.Equal(expectedInputFile, inputFile);
             Assert.Equal(expectedOutputFile, outputFile);
+        }
+
+        [Fact]  
+        public void Given_Fake_Input_And_Output_File_Throws_Exception()
+        {
+            // Arrange
+            var input = @"-subscriptionKey 1234 -subscriptionRegion canada -inputFile c:\foo.mp3 -outputFile c:\foo.mp3";
+            var args = input.Split(" ").ToArray();
+            var speechConverterConfiguration = new SpeechConverterConfiguration(_speechConverterLogger.Object);
+
+            // Assert
+            Assert.Throws<FileNotFoundException>(() => speechConverterConfiguration.Initialize(args));
         }
     }
 }
