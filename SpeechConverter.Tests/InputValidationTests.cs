@@ -120,7 +120,7 @@ namespace SpeechConverter.Tests
             Assert.Equal(expectedOutputFile, outputFile);
         }
 
-        [Fact]
+        [Fact]  
         public void Given_Fake_Input_And_Output_File_Throws_Exception()
         {
             // Arrange
