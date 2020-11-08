@@ -1,9 +1,9 @@
 using Microsoft.Extensions.Logging;
 using Moq;
+using SpeechConverter.App;
 using System;
 using System.IO;
 using System.Linq;
-using SpeechConverter.App;
 using Xunit;
 
 namespace SpeechConverter.Tests
@@ -120,7 +120,7 @@ namespace SpeechConverter.Tests
             Assert.Equal(expectedOutputFile, outputFile);
         }
 
-        [Fact]  
+        [Fact]
         public void Given_Fake_Input_And_Output_File_Throws_Exception()
         {
             // Arrange
