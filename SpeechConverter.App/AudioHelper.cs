@@ -1,10 +1,10 @@
-using Microsoft.CognitiveServices.Speech.Audio;
-using NAudio.Wave;
 using System;
 using System.Diagnostics;
 using System.IO;
+using Microsoft.CognitiveServices.Speech.Audio;
+using NAudio.Wave;
 
-namespace SpeechConverter
+namespace SpeechConverter.App
 {
     public static class AudioHelper
     {
@@ -88,10 +88,6 @@ namespace SpeechConverter
 
             while (frame != null)
             {
-                if (frame != null)
-                {
-                    var sampleFrequency = (uint)frame.SampleRate;
-                }
                 if (frame.ChannelMode == ChannelMode.Mono)
                 {
                     duration += frame.SampleCount * 2.0 / frame.SampleRate;

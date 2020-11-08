@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace SpeechConverter
+namespace SpeechConverter.App
 {
     public static class HelpPage
     {

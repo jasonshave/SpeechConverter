@@ -1,10 +1,10 @@
-﻿using Microsoft.CognitiveServices.Speech;
+﻿using System;
+using System.Threading.Tasks;
+using Microsoft.CognitiveServices.Speech;
 using Microsoft.CognitiveServices.Speech.Audio;
 using Microsoft.Extensions.Logging;
-using System;
-using System.Threading.Tasks;
 
-namespace SpeechConverter
+namespace SpeechConverter.App
 {
     public static class AudioConverter
     {

@@ -1,8 +1,8 @@
-﻿using Microsoft.Extensions.Logging;
-using System.IO;
+﻿using System.IO;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Logging;
 
-namespace SpeechConverter
+namespace SpeechConverter.App
 {
     public class Application
     {

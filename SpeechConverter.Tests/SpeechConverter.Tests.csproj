@@ -21,7 +21,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\SpeechConverter.App\SpeechConverter.csproj" />
+    <ProjectReference Include="..\SpeechConverter.App\SpeechConverter.App.csproj" />
   </ItemGroup>
 
 </Project>

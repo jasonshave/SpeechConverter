@@ -2,6 +2,7 @@ using Microsoft.Extensions.Logging;
 using Moq;
 using System;
 using System.Linq;
+using SpeechConverter.App;
 using Xunit;
 
 namespace SpeechConverter.Tests

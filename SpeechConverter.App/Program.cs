@@ -5,9 +5,10 @@ using Serilog;
 using System;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 
-namespace SpeechConverter
+namespace SpeechConverter.App
 {
     [ExcludeFromCodeCoverage]
     class Program
@@ -18,7 +19,6 @@ namespace SpeechConverter
         {
             try
             {
-                // todo: remove this part
                 _args = args;
                 await StartApplication();
             }
@@ -30,7 +30,6 @@ namespace SpeechConverter
             {
                 Log.Logger.Error(e.Message);
             }
-
         }
 
         private static async Task StartApplication()

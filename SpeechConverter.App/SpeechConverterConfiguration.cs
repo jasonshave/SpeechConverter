@@ -1,10 +1,10 @@
-﻿using Microsoft.Extensions.Logging;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using Microsoft.Extensions.Logging;
 
-namespace SpeechConverter
+namespace SpeechConverter.App
 {
     public class SpeechConverterConfiguration
     {
