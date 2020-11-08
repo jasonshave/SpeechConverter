@@ -49,7 +49,7 @@ namespace SpeechConverter.App
 
                         using (BinaryAudioStreamReader reader = AudioHelper.CreateBinaryFileReader(inputFile))
                         {
-                            logger.LogInformation("Reading file {input}", inputFile);
+                            logger.LogInformation("Reading file: {input}", inputFile);
 
                             // get duration of file to estimate conversion time
                             try
