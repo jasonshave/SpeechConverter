@@ -60,7 +60,7 @@ namespace SpeechConverter.App
                             }
                             catch (Exception e)
                             {
-                                Console.WriteLine($"Unable to determine duration of conversion: {e.Message}");
+                                logger.LogError("Unable to determine duration of conversion: {ExceptionMessage}", e.Message);
                             }
 
                             byte[] buffer = new byte[1000];
