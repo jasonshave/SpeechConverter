@@ -1,26 +1,38 @@
 ﻿using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Serilog;
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 
-namespace SpeechConverter
+namespace SpeechConverter.App
 {
+    [ExcludeFromCodeCoverage]
     class Program
     {
+        private static string[] _args;
+
         static async Task Main(string[] args)
         {
-            SetupLogging();
-            Log.Logger.Information("Application starting.");
-
-
-
-            var result = await AudioConverter.Convert(inputFile: "foo");
-            Console.WriteLine(result);
+            try
+            {
+                _args = args;
+                await StartApplication();
+            }
+            catch (ArgumentException)
+            {
+                HelpPage.ShowHelp();
+            }
+            catch (Exception e)
+            {
+                Log.Logger.Error(e.Message);
+            }
         }
 
-        private static void SetupLogging()
+        private static async Task StartApplication()
         {
             // Set up configuration builder for Serilog
             var builder = new ConfigurationBuilder();
@@ -33,7 +45,12 @@ namespace SpeechConverter
                 .WriteTo.Console()
                 .CreateLogger();
 
-            CreateHostBuilder().Build();
+            var host = CreateHostBuilder().Build();
+            using var serviceScope = host.Services.CreateScope();
+            var services = serviceScope.ServiceProvider;
+
+            var application = services.GetRequiredService<Application>();
+            await application.Run(_args);
         }
 
         private static void BuildConfig(IConfigurationBuilder builder)
@@ -47,6 +64,12 @@ namespace SpeechConverter
         }
 
         private static IHostBuilder CreateHostBuilder() =>
-            Host.CreateDefaultBuilder().UseSerilog();
+            Host.CreateDefaultBuilder()
+                .ConfigureServices((services) =>
+                {
+                    services.AddSingleton<Application>();
+                    services.AddSingleton<SpeechConverterConfiguration>();
+                })
+                .UseSerilog();
     }
 }

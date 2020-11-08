@@ -1,9 +1,10 @@
-using Microsoft.CognitiveServices.Speech.Audio;
 using System;
 using System.Diagnostics;
 using System.IO;
+using Microsoft.CognitiveServices.Speech.Audio;
+using NAudio.Wave;
 
-namespace SpeechConverter
+namespace SpeechConverter.App
 {
     public static class AudioHelper
     {
@@ -76,6 +77,29 @@ namespace SpeechConverter
             // now, we have the format in the format parameter and the
             // reader set to the start of the body, i.e., the raw sample data
             return AudioStreamFormat.GetWaveFormatPCM(samplesPerSecond, (byte)bitsPerSample, (byte)channels);
+        }
+
+        public static TimeSpan GetMediaDuration(string mediaFilename)
+        {
+            double duration = 0.0;
+
+            using FileStream fs = File.OpenRead(mediaFilename);
+            Mp3Frame frame = Mp3Frame.LoadFromStream(fs);
+
+            while (frame != null)
+            {
+                if (frame.ChannelMode == ChannelMode.Mono)
+                {
+                    duration += frame.SampleCount * 2.0 / frame.SampleRate;
+                }
+                else
+                {
+                    duration += frame.SampleCount * 4.0 / frame.SampleRate;
+                }
+                frame = Mp3Frame.LoadFromStream(fs);
+            }
+
+            return TimeSpan.FromSeconds(duration);
         }
     }
 
