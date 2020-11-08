@@ -5,7 +5,6 @@ using Serilog;
 using System;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace SpeechConverter.App
@@ -22,7 +21,7 @@ namespace SpeechConverter.App
                 _args = args;
                 await StartApplication();
             }
-            catch (ArgumentException)
+            catch (ArgumentException e)
             {
                 HelpPage.ShowHelp();
             }
@@ -56,8 +55,9 @@ namespace SpeechConverter.App
         private static void BuildConfig(IConfigurationBuilder builder)
         {
             var environment = Environment.GetEnvironmentVariable("NETCORE_ENVIRONMENT");
+            var realPath = Directory.GetParent(System.Reflection.Assembly.GetExecutingAssembly().Location).FullName;
 
-            builder.SetBasePath(Directory.GetCurrentDirectory())
+            builder.SetBasePath(realPath)
                 .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
                 .AddJsonFile($"appsettings.{environment ?? "Production"}.json", optional: true, reloadOnChange: true)
                 .AddEnvironmentVariables();

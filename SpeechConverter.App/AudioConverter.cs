@@ -49,7 +49,7 @@ namespace SpeechConverter.App
 
                         using (BinaryAudioStreamReader reader = AudioHelper.CreateBinaryFileReader(inputFile))
                         {
-                            logger.LogInformation("Reading file {input}", inputFile);
+                            logger.LogInformation("Reading file: {input}", inputFile);
 
                             // get duration of file to estimate conversion time
                             try
@@ -60,7 +60,7 @@ namespace SpeechConverter.App
                             }
                             catch (Exception e)
                             {
-                                Console.WriteLine($"Unable to determine duration of conversion: {e.Message}");
+                                logger.LogError("Unable to determine duration of conversion: {ExceptionMessage}", e.Message);
                             }
 
                             byte[] buffer = new byte[1000];
