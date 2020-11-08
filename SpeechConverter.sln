@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30621.155
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SpeechConverter", "SpeechConverter.App\SpeechConverter.csproj", "{DCFF96AA-D47F-46AD-88C3-CEC29A83AE28}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SpeechConverter.App", "SpeechConverter.App\SpeechConverter.App.csproj", "{DCFF96AA-D47F-46AD-88C3-CEC29A83AE28}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SpeechConverter.Tests", "SpeechConverter.Tests\SpeechConverter.Tests.csproj", "{1BAE4CED-6250-44F2-B95B-1E92E6751725}"
 EndProject
