@@ -1,18 +1,26 @@
+using Microsoft.Extensions.Logging;
+using Moq;
 using System;
 using System.Linq;
 using Xunit;
-
 
 namespace SpeechConverter.Tests
 {
     public class InputValidationTests
     {
+        private readonly Mock<ILogger<SpeechConverterConfiguration>> _speechConverterLogger;
+
+        public InputValidationTests()
+        {
+            _speechConverterLogger = new Mock<ILogger<SpeechConverterConfiguration>>();
+        }
+
         [Fact]
         public void Validate_SubscriptionKey_Argument_Returns_True()
         {
             // Arrange
             var expectedResult = "-subscriptionKey";
-            string[] args = {expectedResult};
+            string[] args = { expectedResult };
 
             // Act
             var oARgs = args.ToList();
@@ -50,9 +58,10 @@ namespace SpeechConverter.Tests
         {
             // Arrange
             var args = input.Split(" ").ToArray();
+            var speechConfiguration = new SpeechConverterConfiguration(_speechConverterLogger.Object);
 
             // Assert
-            Assert.Throws<ArgumentException>(() => new SpeechConverterConfiguration(args));
+            Assert.Throws<ArgumentException>(() => speechConfiguration.Initialize(args));
         }
 
         [Fact]
@@ -61,7 +70,8 @@ namespace SpeechConverter.Tests
             // Arrange
             var input = @"-subscriptionKey 1234 -subscriptionRegion canada -inputFile c:\foo -outputFile c:\bar";
             var args = input.Split(" ").ToArray();
-            var speechConverterConfiguration = new SpeechConverterConfiguration(args);
+            var speechConverterConfiguration = new SpeechConverterConfiguration(_speechConverterLogger.Object);
+            speechConverterConfiguration.Initialize(args);
 
             // Act
             var expectedValue = @"c:\foo";
@@ -77,7 +87,8 @@ namespace SpeechConverter.Tests
             // Arrange
             var input = @"-inputFile c:\foo -subscriptionRegion canada -subscriptionKey 1234 -outputFile c:\bar";
             var args = input.Split(" ").ToArray();
-            var speechConverterConfiguration = new SpeechConverterConfiguration(args);
+            var speechConverterConfiguration = new SpeechConverterConfiguration(_speechConverterLogger.Object);
+            speechConverterConfiguration.Initialize(args);
 
             // Act
             var expectedValue = @"c:\foo";
@@ -93,7 +104,8 @@ namespace SpeechConverter.Tests
             // Arrange
             var input = @"-subscriptionKey 1234 -subscriptionRegion canada -inputFile c:\foo -outputFile c:\bar";
             var args = input.Split(" ").ToArray();
-            var speechConverterConfiguration = new SpeechConverterConfiguration(args);
+            var speechConverterConfiguration = new SpeechConverterConfiguration(_speechConverterLogger.Object);
+            speechConverterConfiguration.Initialize(args);
 
             // Act
             var expectedInputFile = @"c:\foo";
@@ -105,6 +117,5 @@ namespace SpeechConverter.Tests
             Assert.Equal(expectedInputFile, inputFile);
             Assert.Equal(expectedOutputFile, outputFile);
         }
-
     }
 }

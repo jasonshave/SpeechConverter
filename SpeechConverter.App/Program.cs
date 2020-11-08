@@ -1,36 +1,41 @@
 ﻿using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Serilog;
 using System;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
-using Gst;
+using System.Threading.Tasks;
 
 namespace SpeechConverter
 {
     [ExcludeFromCodeCoverage]
     class Program
     {
-        static async System.Threading.Tasks.Task Main(string[] args)
-        {
-            SetupLogging();
-            Log.Logger.Information("Application starting.");
+        private static string[] _args;
 
+        static async Task Main(string[] args)
+        {
             try
             {
-                var speechConverterConfiguration = new SpeechConverterConfiguration(args);
-                var result = await AudioConverter.Convert(inputFile: speechConverterConfiguration.InputFile);
-                Console.WriteLine(result);
+                // todo: remove this part
+                //_args =
+                //    @"-subscriptionkey 54773552be2b41149aae62b9f44876b8 -subscriptionregion canadacentral -inputfile C:\trans\Jackson_D_2019_02_19_02.MP3 -outputFile C:\trans\Jackson_D_2019_02_19_02.txt".Split(" ").ToArray();
+                _args = args;
+                await StartApplication();
+            }
+            catch (ArgumentException)
+            {
+                HelpPage.ShowHelp();
             }
             catch (Exception e)
             {
                 Log.Logger.Error(e.Message);
             }
 
-            Log.Logger.Information("Application exiting.");
         }
 
-        private static void SetupLogging()
+        private static async Task StartApplication()
         {
             // Set up configuration builder for Serilog
             var builder = new ConfigurationBuilder();
@@ -43,7 +48,12 @@ namespace SpeechConverter
                 .WriteTo.Console()
                 .CreateLogger();
 
-            CreateHostBuilder().Build();
+            var host = CreateHostBuilder().Build();
+            using var serviceScope = host.Services.CreateScope();
+            var services = serviceScope.ServiceProvider;
+
+            var application = services.GetRequiredService<Application>();
+            await application.Run(_args);
         }
 
         private static void BuildConfig(IConfigurationBuilder builder)
@@ -57,6 +67,12 @@ namespace SpeechConverter
         }
 
         private static IHostBuilder CreateHostBuilder() =>
-            Host.CreateDefaultBuilder().UseSerilog();
+            Host.CreateDefaultBuilder()
+                .ConfigureServices((services) =>
+                {
+                    services.AddSingleton<Application>();
+                    services.AddSingleton<SpeechConverterConfiguration>();
+                })
+                .UseSerilog();
     }
 }

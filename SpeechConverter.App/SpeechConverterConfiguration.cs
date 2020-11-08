@@ -1,30 +1,41 @@
-﻿using System;
+﻿using Microsoft.Extensions.Logging;
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 
 namespace SpeechConverter
 {
     public class SpeechConverterConfiguration
     {
+        private const string HelpArgument = "-help";
+        private const string HelpArgumentShort = "-h";
         private const string SubscriptionKeyArgument = "-subscriptionkey";
         private const string SubscriptionRegionArgument = "-subscriptionregion";
         private const string InputFileArgument = "-inputfile";
         private const string OutputFileArgument = "-outputfile";
 
         private static List<string> _oArgs;
+        private readonly ILogger _logger;
 
-        public string SubscriptionKey { get; }
-        public string SubscriptionRegion { get; }
-        public string InputFile { get; }
-        public string OutputFile { get; }
+        public string SubscriptionKey { get; private set; }
+        public string SubscriptionRegion { get; private set; }
+        public string InputFile { get; private set; }
+        public string OutputFile { get; private set; }
 
-        public SpeechConverterConfiguration(string[] args)
+        public SpeechConverterConfiguration(ILogger<SpeechConverterConfiguration> logger)
         {
-            _ = args ?? throw new ArgumentNullException(nameof(args));
+            _logger = logger;
+        }
 
+        public void Initialize(string[] args)
+        {
             // convert to list so we can use LINQ, then convert all to lower-case
             _oArgs = args.ToList();
             _oArgs = _oArgs.ConvertAll(x => x.ToLower());
+
+            // check if user needs help first
+            if (_oArgs.Contains(HelpArgument) || _oArgs.Contains(HelpArgumentShort)) HelpPage.ShowHelp();
 
             Validate(ArgumentExists);
             Validate(ArgumentHasValue);
@@ -33,6 +44,8 @@ namespace SpeechConverter
             SubscriptionRegion = _oArgs[_oArgs.FindIndex(x => x.Contains(SubscriptionRegionArgument)) + 1];
             InputFile = _oArgs[_oArgs.FindIndex(x => x.Contains(InputFileArgument)) + 1];
             OutputFile = _oArgs[_oArgs.FindIndex(x => x.Contains(OutputFileArgument)) + 1];
+
+            if (!File.Exists(InputFile)) throw new FileNotFoundException("File {InputFile} not found.", InputFile);
         }
 
         private static void Validate(Action<string> predicate)
@@ -45,7 +58,7 @@ namespace SpeechConverter
 
         private static void ArgumentExists(string argument)
         {
-            if(!_oArgs.Contains(argument))
+            if (!_oArgs.Contains(argument))
                 throw new ArgumentException("Could not determine parameter: {argument}", argument);
         }
 
