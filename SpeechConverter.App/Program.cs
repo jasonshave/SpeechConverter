@@ -19,8 +19,6 @@ namespace SpeechConverter
             try
             {
                 // todo: remove this part
-                //_args =
-                //    @"-subscriptionkey 54773552be2b41149aae62b9f44876b8 -subscriptionregion canadacentral -inputfile C:\trans\Jackson_D_2019_02_19_02.MP3 -outputFile C:\trans\Jackson_D_2019_02_19_02.txt".Split(" ").ToArray();
                 _args = args;
                 await StartApplication();
             }
