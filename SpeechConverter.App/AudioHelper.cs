@@ -1,3 +1,5 @@
+using Microsoft.CognitiveServices.Speech.Audio;
+using NAudio.Wave;
 using System;
 using System.Diagnostics;
 using System.IO;

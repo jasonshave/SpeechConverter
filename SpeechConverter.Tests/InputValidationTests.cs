@@ -1,9 +1,9 @@
 using Microsoft.Extensions.Logging;
 using Moq;
+using SpeechConverter.App;
 using System;
 using System.IO;
 using System.Linq;
-using SpeechConverter.App;
 using Xunit;
 
 namespace SpeechConverter.Tests
