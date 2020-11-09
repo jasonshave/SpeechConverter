@@ -48,7 +48,7 @@ namespace SpeechConverter.Tests
 
         [Theory]
         [InlineData(@"-subscriptionKey 1234 -subscriptionRegion canada -inputFile ./testfiles/test.mp3 -outputFil ./testfiles/test.txt")]
-        [InlineData(@"-subscriptionKey 1234 -subscriptionRegion canada -inputFile ./testfiles/test.mp3 -outputFile ./testfiles/test.txt")]
+        [InlineData(@"-subscriptionKey 1234 -subscriptionRegion canada -outputFile ./testfiles/test.txt")]
         [InlineData(@"-subscriptionKey 1234-subscriptionRegion canada -inputFile ./testfiles/test.mp3 -outputFile ./testfiles/test.txt")]
         [InlineData(@"-subscriptionKey 1234 -subscriptionRegioncanada -inputFile ./testfiles/test.mp3 -outputFile ./testfiles/test.txt")]
         [InlineData(@"-subiptionKey 1234 -bscriptionRegion canada -inputFile ./testfiles/test.mp3 -outputFile ./testfiles/test.txt")]
