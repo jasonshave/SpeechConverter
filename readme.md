@@ -1,5 +1,7 @@
 # SpeechConverter
 
+![pr-build-workflow](https://github.com/jasonshave/SpeechConverter/workflows/Build_Pipeline/badge.svg)
+
 ## Overview
 
 SpeechConverter is a .NET Core 3.1 console application which leverages the Azure Cognitive Services Speech service to perform speech-to-text conversion of MP3 files.
