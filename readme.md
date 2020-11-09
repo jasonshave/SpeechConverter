@@ -1,6 +1,6 @@
 # SpeechConverter
 
-![pr-build-workflow](https://github.com/jasonshave/SpeechConverter/workflows/Build_Pipeline/badge.svg)
+![pr-build-workflow](https://github.com/jasonshave/SpeechConverter/workflows/Build%20Pipeline/badge.svg)
 
 ## Overview
 
