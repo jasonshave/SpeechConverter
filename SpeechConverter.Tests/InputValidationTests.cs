@@ -131,5 +131,17 @@ namespace SpeechConverter.Tests
             // Assert
             Assert.Throws<FileNotFoundException>(() => speechConverterConfiguration.Initialize(args));
         }
+
+        [Fact]
+        public void Given_Same_Input_And_Output_File_Throws_Exception()
+        {
+            // Arrange
+            var input = @"-subscriptionKey 1234 -subscriptionRegion canada -inputFile ./testfiles/test.mp3 -outputFile ./testfiles/test.mp3";
+            var args = input.Split(" ").ToArray();
+            var speechConverterConfiguration = new SpeechConverterConfiguration(_speechConverterLogger.Object);
+
+            // Assert
+            Assert.Throws<DuplicateFileException>(() => speechConverterConfiguration.Initialize(args));
+        }
     }
 }

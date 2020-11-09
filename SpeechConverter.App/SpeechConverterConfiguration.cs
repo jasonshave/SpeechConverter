@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace SpeechConverter.App
 {
-    public class SpeechConverterConfiguration
+    public sealed class SpeechConverterConfiguration
     {
         private const string HelpArgument = "-help";
         private const string HelpArgumentShort = "-h";
@@ -45,8 +45,8 @@ namespace SpeechConverter.App
             InputFile = _oArgs[_oArgs.FindIndex(x => x.Contains(InputFileArgument)) + 1];
             OutputFile = _oArgs[_oArgs.FindIndex(x => x.Contains(OutputFileArgument)) + 1];
 
-            if (!File.Exists(InputFile)) throw new FileNotFoundException("File {InputFile} not found.", InputFile);
-            if (InputFile == OutputFile) throw new Exception($"Input file {InputFile} and output file {OutputFile} are the same.");
+            if (!File.Exists(InputFile)) throw new FileNotFoundException($"File {InputFile} not found.", InputFile);
+            if (InputFile == OutputFile) throw new DuplicateFileException($"Input file {InputFile} and output file {OutputFile} are the same.", InputFile, OutputFile);
         }
 
         private static void Validate(Action<string> predicate)
