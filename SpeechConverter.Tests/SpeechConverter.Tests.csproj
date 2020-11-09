@@ -24,4 +24,10 @@
     <ProjectReference Include="..\SpeechConverter.App\SpeechConverter.App.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="testfiles\test.mp3">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>

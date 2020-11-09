@@ -35,7 +35,7 @@ namespace SpeechConverter.Tests
         public void Correct_Args_Validates_Without_Exception()
         {
             // Arrange
-            var input = @"-subscriptionKey 1234 -subscriptionRegion canada -inputFile c:\foo -outputFile c:\bar";
+            var input = @"-subscriptionKey 1234 -subscriptionRegion canada -inputFile ./testfiles/test.mp3 -outputFile ./testfiles/test.txt";
             var args = input.Split(" ").ToArray();
 
             // Act
@@ -47,14 +47,14 @@ namespace SpeechConverter.Tests
         }
 
         [Theory]
-        [InlineData(@"-subscriptionKey 1234 -subscriptionRegion canada -inputFile c:\foo -outputFil c:\bar")]
-        [InlineData(@"-subscriptionKey 1234 -subscriptionRegion canada -inputFile -outputFile c:\bar")]
-        [InlineData(@"-subscriptionKey 1234-subscriptionRegion canada -inputFile c:\foo -outputFile c:\bar")]
-        [InlineData(@"-subscriptionKey 1234 -subscriptionRegioncanada -inputFile c:\foo -outputFile c:\bar")]
-        [InlineData(@"-subiptionKey 1234 -bscriptionRegion canada -inputFile c:\foo -outputFile c:\bar")]
-        [InlineData(@"-subscriptionKey1234 -subscriptionRegion canada -inptFile c:\foo -outputFile c:\bar")]
-        [InlineData(@"-subscriptionKey1234 -subscriptionRegion canada -inptFile c:\foo -outputFile")]
-        [InlineData(@"-inptFile c:\foo -outputFile c:\bar")]
+        [InlineData(@"-subscriptionKey 1234 -subscriptionRegion canada -inputFile ./testfiles/test.mp3 -outputFil ./testfiles/test.txt")]
+        [InlineData(@"-subscriptionKey 1234 -subscriptionRegion canada -outputFile ./testfiles/test.txt")]
+        [InlineData(@"-subscriptionKey 1234-subscriptionRegion canada -inputFile ./testfiles/test.mp3 -outputFile ./testfiles/test.txt")]
+        [InlineData(@"-subscriptionKey 1234 -subscriptionRegioncanada -inputFile ./testfiles/test.mp3 -outputFile ./testfiles/test.txt")]
+        [InlineData(@"-subiptionKey 1234 -bscriptionRegion canada -inputFile ./testfiles/test.mp3 -outputFile ./testfiles/test.txt")]
+        [InlineData(@"-subscriptionKey1234 -subscriptionRegion canada -inptFile ./testfiles/test.mp3 -outputFile ./testfiles/test.txt")]
+        [InlineData(@"-subscriptionKey1234 -subscriptionRegion canada -inptFile ./testfiles/test.mp3 -outputFile")]
+        [InlineData(@"-inptFile ./testfiles/test.mp3 -outputFile ./testfiles/test.txt")]
         [InlineData(@"")]
         public void Invalid_Parameters_Throws_ArgumentException(string input)
         {
@@ -70,13 +70,13 @@ namespace SpeechConverter.Tests
         public void Given_Valid_Args_Get_InputFileName_Returns_Correct_Value()
         {
             // Arrange
-            var input = @"-subscriptionKey 1234 -subscriptionRegion canada -inputFile c:\foo -outputFile c:\bar";
+            var input = @"-subscriptionKey 1234 -subscriptionRegion canada -inputFile ./testfiles/test.mp3 -outputFile ./testfiles/test.txt";
             var args = input.Split(" ").ToArray();
             var speechConverterConfiguration = new SpeechConverterConfiguration(_speechConverterLogger.Object);
             speechConverterConfiguration.Initialize(args);
 
             // Act
-            var expectedValue = @"c:\foo";
+            var expectedValue = @"./testfiles/test.mp3";
             var actualValue = speechConverterConfiguration.InputFile;
 
             // Assert
@@ -87,13 +87,13 @@ namespace SpeechConverter.Tests
         public void Given_Valid_OutOfOrderArgs_Get_InputFileName_Returns_Correct_Value()
         {
             // Arrange
-            var input = @"-inputFile c:\foo -subscriptionRegion canada -subscriptionKey 1234 -outputFile c:\bar";
+            var input = @"-inputFile ./testfiles/test.mp3 -subscriptionRegion canada -subscriptionKey 1234 -outputFile ./testfiles/test.txt";
             var args = input.Split(" ").ToArray();
             var speechConverterConfiguration = new SpeechConverterConfiguration(_speechConverterLogger.Object);
             speechConverterConfiguration.Initialize(args);
 
             // Act
-            var expectedValue = @"c:\foo";
+            var expectedValue = @"./testfiles/test.mp3";
             var actualValue = speechConverterConfiguration.InputFile;
 
             // Assert
@@ -104,14 +104,14 @@ namespace SpeechConverter.Tests
         public void Given_Valid_Args_Get_Values_Returns_Correct_Value()
         {
             // Arrange
-            var input = @"-subscriptionKey 1234 -subscriptionRegion canada -inputFile c:\foo -outputFile c:\bar";
+            var input = @"-subscriptionKey 1234 -subscriptionRegion canada -inputFile ./testfiles/test.mp3 -outputFile ./testfiles/test.txt";
             var args = input.Split(" ").ToArray();
             var speechConverterConfiguration = new SpeechConverterConfiguration(_speechConverterLogger.Object);
             speechConverterConfiguration.Initialize(args);
 
             // Act
-            var expectedInputFile = @"c:\foo";
-            var expectedOutputFile = @"c:\bar";
+            var expectedInputFile = @"./testfiles/test.mp3";
+            var expectedOutputFile = @"./testfiles/test.txt";
             var inputFile = speechConverterConfiguration.InputFile;
             var outputFile = speechConverterConfiguration.OutputFile;
 
