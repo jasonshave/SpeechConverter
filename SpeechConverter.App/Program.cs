@@ -21,7 +21,7 @@ namespace SpeechConverter.App
                 _args = args;
                 await StartApplication();
             }
-            catch (ArgumentException e)
+            catch (ArgumentException)
             {
                 HelpPage.ShowHelp();
             }
