@@ -42,7 +42,7 @@ This project requires the installation of GStreamer version [1.14.5](https://gst
 
 ## Application Settings
 
-The project uses `appsettings.json` to contain the Serilog configuration and is included in the publishing of the output. Serilog is used out output status to the console.
+The project uses `appsettings.json` to contain the Serilog configuration and is included in the publishing of the output. Serilog is used out output status to the console throughout the conversion.
 
 ## Compiling to a single EXE
 
