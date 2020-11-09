@@ -52,7 +52,7 @@ You can use the following syntax to create a single executable file for easy dis
 
 ## Running SpeechConverter
 
-After installing `gstreamer` and creating the path entry, the following example shows the execution.
+After installing `gstreamer` and adding the correct user and system environment variables, the following example shows the execution.
 
 `SpeechConverter.exe -subscriptionKey 12456789123456789 -subscriptionRegion canadacentral -inputFile c:\audio\test.mp3 -outputFile c:\audio\test.txt`
 
