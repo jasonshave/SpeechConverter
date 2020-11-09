@@ -1,4 +1,4 @@
-# SpeechConverter
+# SpeechConverter (MP3 to TXT)
 
 ![pr-build-workflow](https://github.com/jasonshave/SpeechConverter/workflows/Build%20Pipeline/badge.svg)
 
